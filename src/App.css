@@ -49,19 +49,13 @@ a {
     display: flex;
 }
 
-.flex-column {
-    display: flex !important;
-    flex-direction: column !important;
-    justify-content: space-between !important;
-}
-
 .items-end {
     display: flex;
     justify-content: flex-end;
 }
 
 .MuiButton-root {
-    text-transform: none !important;
+    /* text-transform: none !important; */
     font-size: 1rem !important;
-    font-weight: 800;
+    font-weight: 900;
 }

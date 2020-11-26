@@ -11,4 +11,7 @@ export const theme = createMuiTheme({
             contrastText: "#FFFFFF",
         },
     },
+    typography: {
+        fontFamily: "'Archivo', sans-serif",
+    },
 });

@@ -18,6 +18,9 @@ const useStyles = makeStyles((theme) => ({
     root: {
         height: "100vh",
     },
+    header: {
+        marginBottom: theme.spacing(2),
+    },
     image: {
         backgroundImage: `url(${Banner})`,
         backgroundRepeat: "no-repeat",
@@ -33,16 +36,6 @@ const useStyles = makeStyles((theme) => ({
     avatar: {
         margin: theme.spacing(1),
         backgroundColor: theme.palette.secondary.main,
-    },
-    form: {
-        width: "100%",
-        marginTop: theme.spacing(1),
-    },
-    submit: {
-        margin: theme.spacing(3, 0, 2),
-    },
-    startOver: {
-        margin: "4em 2em",
     },
 }));
 
@@ -65,7 +58,7 @@ function SignInSide({ isOtpVerified, isLogin, startOver, wrongOtpCount, wrongEma
                     </Box>
                 </Hidden>
             </Grid>
-            <Grid item xs={12} sm={8} md={4} component={Paper} elevation={2} square className="flex-column">
+            <Grid item xs={12} sm={8} md={4} component={Paper} elevation={2} square>
                 <Hidden smUp>
                     <Box p={2}>
                         <img src={BasisLogo} alt="Basis Logo" />
@@ -75,21 +68,17 @@ function SignInSide({ isOtpVerified, isLogin, startOver, wrongOtpCount, wrongEma
                     <Avatar className={classes.avatar}>
                         <LockOutlinedIcon />
                     </Avatar>
-                    <Typography component="h1" variant="h5">
+                    <Typography component="h1" variant="h5" className={classes.header}>
                         Login or Signup
                     </Typography>
                     <AuthForm />
+
+                    {(wrongOtpCount >= 3 || wrongEmailTokenCount >= 3) && (
+                        <Button variant="outlined" color="secondary" onClick={() => startOver()} fullWidth>
+                            Start Over
+                        </Button>
+                    )}
                 </div>
-                {(wrongOtpCount >= 3 || wrongEmailTokenCount >= 3) && (
-                    <Button
-                        variant="outlined"
-                        color="secondary"
-                        className={classes.startOver}
-                        onClick={() => startOver()}
-                    >
-                        Start Over
-                    </Button>
-                )}
             </Grid>
         </Grid>
     );

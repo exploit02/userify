@@ -6,23 +6,27 @@ import reportWebVitals from "./reportWebVitals";
 import { MuiThemeProvider } from "@material-ui/core";
 import { theme } from "./utils/theme";
 import { Provider } from "react-redux";
-import { store } from "./redux/store";
+import { PersistGate } from "redux-persist/lib/integration/react";
+
+import { store, persistor } from "./redux/store";
 import { SnackbarProvider } from "notistack";
 
 ReactDOM.render(
     <React.StrictMode>
         <Provider store={store}>
-            <MuiThemeProvider theme={theme}>
-                <SnackbarProvider
-                    maxSnack={1}
-                    anchorOrigin={{
-                        vertical: "top",
-                        horizontal: "center",
-                    }}
-                >
-                    <App />
-                </SnackbarProvider>
-            </MuiThemeProvider>
+            <PersistGate loading={null} persistor={persistor}>
+                <MuiThemeProvider theme={theme}>
+                    <SnackbarProvider
+                        maxSnack={1}
+                        anchorOrigin={{
+                            vertical: "top",
+                            horizontal: "center",
+                        }}
+                    >
+                        <App />
+                    </SnackbarProvider>
+                </MuiThemeProvider>
+            </PersistGate>
         </Provider>
     </React.StrictMode>,
     document.getElementById("root")

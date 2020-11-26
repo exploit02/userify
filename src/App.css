@@ -59,3 +59,7 @@ a {
     font-size: 1rem !important;
     font-weight: 900;
 }
+
+.bolder {
+    font-weight: bolder;
+}

@@ -8,6 +8,7 @@ import { connect } from "react-redux";
 import { signUp } from "../../redux/auth/authActions";
 import { authService } from "../../services/authService";
 import { makeStyles } from "@material-ui/core/styles";
+import ReferralDetails from "../../components/referral/referralDetails";
 
 const useStyles = makeStyles((theme) => ({
     popover: {
@@ -18,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
     },
     referralMessage: {
         fontSize: "0.75rem",
-        fontWeight: 500,
+        fontWeight: 400,
     },
 }));
 
@@ -130,8 +131,44 @@ function SignUp({ signup, email, phoneNumber, token, source, ...props }) {
                     fullWidth
                 />
                 {Object.keys(referral).length !== 0 && referral.constructor === Object && (
-                    <Grid container>
-                        <Grid item md={12}>
+                    <Grid
+                        container
+                        aria-owns={open ? "mouse-over-popover" : undefined}
+                        aria-haspopup="true"
+                        onMouseEnter={handlePopoverOpen}
+                        onMouseLeave={handlePopoverClose}
+                        alignItems="center"
+                    >
+                        <Grid item xs={11} sm={11} md={11}>
+                            <Typography className={classes.referralMessage} color="primary">
+                                {referral.message}
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={1} sm={1} md={1}>
+                            <ContactSupportOutlinedIcon style={{ fontSize: 16 }} color="secondary" />
+                            <Popover
+                                id="mouse-over-popover"
+                                className={classes.popover}
+                                classes={{
+                                    paper: classes.paper,
+                                }}
+                                open={open}
+                                anchorEl={anchorEl}
+                                anchorOrigin={{
+                                    vertical: "bottom",
+                                    horizontal: "left",
+                                }}
+                                transformOrigin={{
+                                    vertical: "top",
+                                    horizontal: "left",
+                                }}
+                                onClose={handlePopoverClose}
+                                disableRestoreFocus
+                            >
+                                <ReferralDetails data={referral} />
+                            </Popover>
+                        </Grid>
+                        {/* <Grid item md={12}>
                             <Typography
                                 className={classes.referralMessage}
                                 color="primary"
@@ -163,7 +200,7 @@ function SignUp({ signup, email, phoneNumber, token, source, ...props }) {
                             >
                                 <pre>{JSON.stringify(referral, null, 4)}</pre>
                             </Popover>
-                        </Grid>
+                        </Grid> */}
                     </Grid>
                 )}
                 <Field

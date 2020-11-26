@@ -12,7 +12,7 @@ import Banner from "../assets/banner.webp";
 import BasisLogo from "../assets/basis_logo.webp";
 import { connect } from "react-redux";
 import { getOtp, startOver } from "../redux/auth/authActions";
-import AuthForm from "../components/authForm";
+import AuthForm from "../components/forms/authForm";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -37,9 +37,13 @@ const useStyles = makeStyles((theme) => ({
         margin: theme.spacing(1),
         backgroundColor: theme.palette.secondary.main,
     },
+    startOver: {
+        marginTop: theme.spacing(2),
+        marginBottom: theme.spacing(2),
+    },
 }));
 
-function SignInSide({ isOtpVerified, isLogin, startOver, wrongOtpCount, wrongEmailTokenCount }) {
+function SignInSide({ isOtpVerified, isLogin, startOver, wrongOtpCount, wrongEmailTokenCount, appStage }) {
     const classes = useStyles();
     const history = useHistory();
     useEffect(() => {
@@ -73,8 +77,14 @@ function SignInSide({ isOtpVerified, isLogin, startOver, wrongOtpCount, wrongEma
                     </Typography>
                     <AuthForm />
 
-                    {(wrongOtpCount >= 3 || wrongEmailTokenCount >= 3) && (
-                        <Button variant="outlined" color="secondary" onClick={() => startOver()} fullWidth>
+                    {(wrongOtpCount >= 3 || wrongEmailTokenCount >= 3 || appStage === "SIGN_UP") && (
+                        <Button
+                            variant="outlined"
+                            color="secondary"
+                            onClick={() => startOver()}
+                            fullWidth
+                            className={classes.startOver}
+                        >
                             Start Over
                         </Button>
                     )}

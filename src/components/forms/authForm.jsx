@@ -1,10 +1,10 @@
 import React, { Fragment } from "react";
 import { connect } from "react-redux";
-import GetOtp from "./forms/getOtp";
-import VerifyOtp from "./forms/verifyOtp";
-import VerifyEmailRequest from "./forms/verifyEmailRequest";
-import VerifyEmailToken from "./forms/verifyEmailToken";
-import SignUp from "./forms/signUp";
+import GetOtp from "./getOtp";
+import VerifyOtp from "./verifyOtp";
+import VerifyEmailRequest from "./verifyEmailRequest";
+import VerifyEmailToken from "./verifyEmailToken";
+import SignUp from "./signUp";
 
 function AuthForm(props) {
     return <Fragment>{componentSelector(props.appStage)}</Fragment>;

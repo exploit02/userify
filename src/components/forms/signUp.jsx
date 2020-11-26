@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Formik, Form, Field } from "formik";
-import { Button, Grid, IconButton, Typography, Popover } from "@material-ui/core";
+import { Button, Grid, Typography, Popover } from "@material-ui/core";
 import ContactSupportOutlinedIcon from "@material-ui/icons/ContactSupportOutlined";
 import { TextField, CheckboxWithLabel } from "formik-material-ui";
 import * as Yup from "yup";
@@ -15,6 +15,10 @@ const useStyles = makeStyles((theme) => ({
     },
     paper: {
         padding: theme.spacing(1),
+    },
+    referralMessage: {
+        fontSize: "0.75rem",
+        fontWeight: 500,
     },
 }));
 
@@ -64,16 +68,16 @@ function SignUp({ signup, email, phoneNumber, token, source, ...props }) {
                 source: source,
             }}
             validationSchema={Yup.object({
-                firstName: Yup.string().min(2, "Too Short!").max(50, "Too Long!").required("Required"),
-                lastName: Yup.string().min(2, "Too Short!").max(50, "Too Long!").required("Required"),
+                firstName: Yup.string().min(2, "Too Short!").max(50, "Too Long!").required("First Name is required"),
+                lastName: Yup.string().max(50, "Too Long!"),
                 referredCodeKey: Yup.string().test(
                     "validReferredCodeKey",
                     "Invalid Referral Code",
                     validateReferralCode
                 ),
+                agreeToPrivacyPolicy: Yup.boolean().required("The terms and conditions must be accepted."),
             })}
             onSubmit={async (values, helpers) => {
-                // getOtp(values);
                 signup(values);
             }}
         >
@@ -127,18 +131,17 @@ function SignUp({ signup, email, phoneNumber, token, source, ...props }) {
                 />
                 {Object.keys(referral).length !== 0 && referral.constructor === Object && (
                     <Grid container>
-                        <Grid item md={11}>
-                            <Typography>{referral.message}</Typography>
-                        </Grid>
-                        <Grid item md={1}>
-                            <IconButton
+                        <Grid item md={12}>
+                            <Typography
+                                className={classes.referralMessage}
+                                color="primary"
                                 aria-owns={open ? "mouse-over-popover" : undefined}
                                 aria-haspopup="true"
                                 onMouseEnter={handlePopoverOpen}
                                 onMouseLeave={handlePopoverClose}
                             >
-                                <ContactSupportOutlinedIcon />
-                            </IconButton>
+                                {referral.message} - Point ME <ContactSupportOutlinedIcon style={{ fontSize: 16 }} />
+                            </Typography>
                             <Popover
                                 id="mouse-over-popover"
                                 className={classes.popover}

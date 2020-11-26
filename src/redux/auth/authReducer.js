@@ -4,15 +4,17 @@ import {
     SUBMIT_EMAIL_SUCCESS,
     VERIFY_EMAIL_SUCCESS,
     SIGN_UP_SUCCESS,
+    UPDATE_PROFILE_SUCCESS,
+    LOG_OUT_SUCCESS,
+    START_OVER,
 } from "./actionTypes";
 
 const initState = {
     appStage: "GET_OTP",
+    isOtpVerified: false,
     source: "WEB_APP",
 };
 export const authReducer = (state = initState, action) => {
-    console.log("in reducer--------");
-    console.log(action);
     switch (action.type) {
         case GET_OTP_SUCCESS:
             return {
@@ -24,6 +26,7 @@ export const authReducer = (state = initState, action) => {
             return {
                 ...state,
                 ...action.payload,
+                isOtpVerified: true,
                 appStage: state.isLogin ? "USER" : "SUBMIT_EMAIL",
             };
         case SUBMIT_EMAIL_SUCCESS:
@@ -43,6 +46,24 @@ export const authReducer = (state = initState, action) => {
                 ...state,
                 ...action.payload,
                 appStage: "USER",
+                isLogin: true,
+            };
+        case UPDATE_PROFILE_SUCCESS:
+            return {
+                ...state,
+                user: { ...state.user, ...action.payload.user },
+            };
+        case LOG_OUT_SUCCESS:
+            return {
+                appStage: "GET_OTP",
+                isOtpVerified: false,
+                source: "WEB_APP",
+            };
+        case START_OVER:
+            return {
+                appStage: "GET_OTP",
+                isOtpVerified: false,
+                source: "WEB_APP",
             };
         default:
             return state;

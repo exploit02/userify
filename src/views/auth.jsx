@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import Avatar from "@material-ui/core/Avatar";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import { Box } from "@material-ui/core";
+import { Box, Button, Hidden } from "@material-ui/core";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
@@ -10,7 +11,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Banner from "../assets/banner.webp";
 import BasisLogo from "../assets/basis_logo.webp";
 import { connect } from "react-redux";
-import { getOtp } from "../redux/auth/authActions";
+import { getOtp, startOver } from "../redux/auth/authActions";
 import AuthForm from "../components/authForm";
 
 const useStyles = makeStyles((theme) => ({
@@ -40,20 +41,36 @@ const useStyles = makeStyles((theme) => ({
     submit: {
         margin: theme.spacing(3, 0, 2),
     },
+    startOver: {
+        margin: "4em 2em",
+    },
 }));
 
-function SignInSide({ getOtp, ...props }) {
+function SignInSide({ getOtp, isOtpVerified, isLogin, startOver }) {
     const classes = useStyles();
+    const history = useHistory();
+    useEffect(() => {
+        if (isOtpVerified && isLogin) {
+            history.push("/profile");
+        }
+    }, [isOtpVerified, isLogin]);
 
     return (
         <Grid container component="main" className={classes.root}>
             <CssBaseline />
             <Grid item xs={false} sm={4} md={8} className={classes.image}>
-                <Box p={2}>
-                    <img src={BasisLogo} alt="Basis Logo" />
-                </Box>
+                <Hidden xsDown>
+                    <Box p={2}>
+                        <img src={BasisLogo} alt="Basis Logo" />
+                    </Box>
+                </Hidden>
             </Grid>
-            <Grid item xs={12} sm={8} md={4} component={Paper} elevation={2} square>
+            <Grid item xs={12} sm={8} md={4} component={Paper} elevation={2} square className="flex-column">
+                <Hidden smUp>
+                    <Box p={2}>
+                        <img src={BasisLogo} alt="Basis Logo" />
+                    </Box>
+                </Hidden>
                 <div className={classes.paper}>
                     <Avatar className={classes.avatar}>
                         <LockOutlinedIcon />
@@ -63,6 +80,10 @@ function SignInSide({ getOtp, ...props }) {
                     </Typography>
                     <AuthForm />
                 </div>
+
+                <Button variant="outlined" color="secondary" className={classes.startOver} onClick={() => startOver()}>
+                    Start Over
+                </Button>
             </Grid>
         </Grid>
     );
@@ -74,6 +95,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     getOtp: (phoneNumber) => dispatch(getOtp(phoneNumber)),
+    startOver: () => dispatch(startOver()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignInSide);

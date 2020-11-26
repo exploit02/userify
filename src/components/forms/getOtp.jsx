@@ -1,6 +1,6 @@
 import React from "react";
 import { Formik, Form, Field } from "formik";
-import { Button, InputAdornment } from "@material-ui/core";
+import { Button, Grid, InputAdornment } from "@material-ui/core";
 import { TextField } from "formik-material-ui";
 import * as Yup from "yup";
 import { connect } from "react-redux";
@@ -21,25 +21,29 @@ function GetOtp({ getOtp, ...props }) {
                 getOtp(values);
             }}
         >
-            {({ isSubmitting }) => (
-                <Form>
-                    <Field
-                        component={TextField}
-                        variant="outlined"
-                        color="primary"
-                        name="phoneNumber"
-                        label="Mobile Number"
-                        margin="normal"
-                        fullWidth
-                        InputProps={{
-                            startAdornment: <InputAdornment position="start">+91 | </InputAdornment>,
-                        }}
-                    />
-                    <Button variant="contained" color="primary" type="submit" fullWidth disabled={isSubmitting}>
-                        Get OTP
-                    </Button>
-                </Form>
-            )}
+            <Form>
+                <Grid container>
+                    <Grid item xs={12} sm={12} md={12}>
+                        <Field
+                            component={TextField}
+                            variant="outlined"
+                            color="primary"
+                            name="phoneNumber"
+                            label="Mobile Number"
+                            margin="normal"
+                            fullWidth
+                            InputProps={{
+                                startAdornment: <InputAdornment position="start">+91 | </InputAdornment>,
+                            }}
+                        />
+                    </Grid>
+                    <Grid item xs={12} sm={12} md={12} className="flex">
+                        <Button variant="contained" color="primary" type="submit" fullWidth>
+                            Get OTP
+                        </Button>
+                    </Grid>
+                </Grid>
+            </Form>
         </Formik>
     );
 }

@@ -97,8 +97,9 @@ const otpVerified = (data) => ({
     payload: data,
 });
 
-const otpVerificationFailed = (err) => ({
+const otpVerificationFailed = (data) => ({
     type: VERIFY_OTP_FAILURE,
+    payload: data,
 });
 
 export const verifyOtp = (data) => (dispatch) => {
@@ -119,7 +120,7 @@ export const verifyOtp = (data) => (dispatch) => {
                     })
                 );
             } else {
-                dispatch(otpVerificationFailed());
+                dispatch(otpVerificationFailed(res.data.messageObj || {}));
                 dispatch(
                     enqueueSnackbar({
                         message: res.data.message,
@@ -132,7 +133,7 @@ export const verifyOtp = (data) => (dispatch) => {
             }
         })
         .catch((err) => {
-            dispatch(otpVerificationFailed(err));
+            dispatch(otpVerificationFailed({}));
             dispatch(
                 enqueueSnackbar({
                     message:
@@ -213,8 +214,9 @@ const emailVerified = (data) => ({
     payload: data,
 });
 
-const emailVerifictionFailed = (err) => ({
+const emailVerifictionFailed = (data) => ({
     type: VERIFY_EMAIL_FAILURE,
+    payload: data,
 });
 
 export const verifyEmail = (data) => (dispatch) => {
@@ -235,7 +237,7 @@ export const verifyEmail = (data) => (dispatch) => {
                     })
                 );
             } else {
-                dispatch(emailVerifictionFailed());
+                dispatch(emailVerifictionFailed(res.data.messageObj || {}));
                 dispatch(
                     enqueueSnackbar({
                         message: res.data.message,
@@ -248,7 +250,7 @@ export const verifyEmail = (data) => (dispatch) => {
             }
         })
         .catch((err) => {
-            dispatch(emailVerifictionFailed(err));
+            dispatch(emailVerifictionFailed({}));
             dispatch(
                 enqueueSnackbar({
                     message:

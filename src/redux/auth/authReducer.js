@@ -1,8 +1,10 @@
 import {
     GET_OTP_SUCCESS,
     VERIFY_OTP_SUCCESS,
+    VERIFY_OTP_FAILURE,
     SUBMIT_EMAIL_SUCCESS,
     VERIFY_EMAIL_SUCCESS,
+    VERIFY_EMAIL_FAILURE,
     SIGN_UP_SUCCESS,
     UPDATE_PROFILE_SUCCESS,
     LOG_OUT_SUCCESS,
@@ -22,12 +24,18 @@ export const authReducer = (state = initState, action) => {
                 ...action.payload,
                 appStage: "VERIFY_OTP",
             };
+
         case VERIFY_OTP_SUCCESS:
             return {
                 ...state,
                 ...action.payload,
                 isOtpVerified: true,
                 appStage: state.isLogin ? "USER" : "SUBMIT_EMAIL",
+            };
+        case VERIFY_OTP_FAILURE:
+            return {
+                ...state,
+                ...action.payload,
             };
         case SUBMIT_EMAIL_SUCCESS:
             return {
@@ -40,6 +48,11 @@ export const authReducer = (state = initState, action) => {
                 ...state,
                 ...action.payload,
                 appStage: "SIGN_UP",
+            };
+        case VERIFY_EMAIL_FAILURE:
+            return {
+                ...state,
+                ...action.payload,
             };
         case SIGN_UP_SUCCESS:
             return {

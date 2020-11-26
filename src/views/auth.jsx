@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function SignInSide({ getOtp, isOtpVerified, isLogin, startOver }) {
+function SignInSide({ isOtpVerified, isLogin, startOver, wrongOtpCount, wrongEmailTokenCount }) {
     const classes = useStyles();
     const history = useHistory();
     useEffect(() => {
@@ -80,10 +80,16 @@ function SignInSide({ getOtp, isOtpVerified, isLogin, startOver }) {
                     </Typography>
                     <AuthForm />
                 </div>
-
-                <Button variant="outlined" color="secondary" className={classes.startOver} onClick={() => startOver()}>
-                    Start Over
-                </Button>
+                {(wrongOtpCount >= 3 || wrongEmailTokenCount >= 3) && (
+                    <Button
+                        variant="outlined"
+                        color="secondary"
+                        className={classes.startOver}
+                        onClick={() => startOver()}
+                    >
+                        Start Over
+                    </Button>
+                )}
             </Grid>
         </Grid>
     );

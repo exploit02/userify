@@ -9,7 +9,7 @@ export const rootService = (props) => {
         basisApi: axios.create({
             baseURL: `https://hiring.getbasis.co/candidate`,
             headers: {
-                Authorization: `Bearer ${store.getState().auth.user._id},${store.getState().auth.user.token}`,
+                Authorization: `Bearer ${store.getState().auth.user?._id},${store.getState().auth.user?.token}`,
             },
         }),
     };

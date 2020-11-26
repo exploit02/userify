@@ -38,6 +38,9 @@ function SignUp({ signup, email, phoneNumber, token, source, ...props }) {
         setAnchorEl(null);
     };
     const validateReferralCode = async (code) => {
+        if (!code) {
+            return true;
+        }
         return new Promise((resolve, reject) => {
             authService
                 .checkReferralCode(code)
@@ -76,6 +79,7 @@ function SignUp({ signup, email, phoneNumber, token, source, ...props }) {
                     "Invalid Referral Code",
                     validateReferralCode
                 ),
+
                 agreeToPrivacyPolicy: Yup.boolean().required("The terms and conditions must be accepted."),
             })}
             onSubmit={async (values, helpers) => {
@@ -129,6 +133,7 @@ function SignUp({ signup, email, phoneNumber, token, source, ...props }) {
                     label="Referral Key"
                     margin="normal"
                     fullWidth
+                    onBlurValidate={false}
                 />
                 {Object.keys(referral).length !== 0 && referral.constructor === Object && (
                     <Grid
@@ -168,39 +173,6 @@ function SignUp({ signup, email, phoneNumber, token, source, ...props }) {
                                 <ReferralDetails data={referral} />
                             </Popover>
                         </Grid>
-                        {/* <Grid item md={12}>
-                            <Typography
-                                className={classes.referralMessage}
-                                color="primary"
-                                aria-owns={open ? "mouse-over-popover" : undefined}
-                                aria-haspopup="true"
-                                onMouseEnter={handlePopoverOpen}
-                                onMouseLeave={handlePopoverClose}
-                            >
-                                {referral.message} - Point ME <ContactSupportOutlinedIcon style={{ fontSize: 16 }} />
-                            </Typography>
-                            <Popover
-                                id="mouse-over-popover"
-                                className={classes.popover}
-                                classes={{
-                                    paper: classes.paper,
-                                }}
-                                open={open}
-                                anchorEl={anchorEl}
-                                anchorOrigin={{
-                                    vertical: "bottom",
-                                    horizontal: "left",
-                                }}
-                                transformOrigin={{
-                                    vertical: "top",
-                                    horizontal: "left",
-                                }}
-                                onClose={handlePopoverClose}
-                                disableRestoreFocus
-                            >
-                                <pre>{JSON.stringify(referral, null, 4)}</pre>
-                            </Popover>
-                        </Grid> */}
                     </Grid>
                 )}
                 <Field
